@@ -1,3 +1,4 @@
+
 #ifndef VECTOR_H
 #define VECTOR_H
 
@@ -45,6 +46,66 @@ private:
     size_t m_cap;
     size_t m_size;
     T *m_buffer;
+};
+
+template <>
+class Vector<bool>
+{
+public:
+    Vector<bool>();
+    Vector<bool>(const Vector<bool>&);
+    Vector<bool>(Vector<bool>&&);
+    Vector<bool>(size_t);
+    Vector<bool>(size_t, bool);
+    Vector<bool>(std::initializer_list<bool>);
+    ~Vector<bool>();
+
+public:
+    class reference
+    {
+    public:
+        reference(size_t*, size_t);
+        reference(const reference&);
+        reference(reference&&);
+        ~reference();
+        reference& operator=(const reference&);
+        reference& operator=(reference&&);
+        reference& operator=(bool);
+        operator bool() const;
+        void flip();
+
+    private:
+        size_t* _buffer;
+        size_t _index;
+        bool _value;
+    };
+
+public:
+    Vector<bool>& operator=(const Vector<bool>&);
+    Vector<bool>& operator=(Vector<bool>&&);
+    reference at(size_t);
+    bool empty() const;
+    size_t size() const;
+    size_t capasity() const;
+    void clear();
+    void insert(size_t, bool);
+    void erase(size_t);
+    void push_back(bool);
+    void pop_back();
+    reference operator[](size_t);
+    reference front();
+    reference back();
+    void resize(size_t);
+    void flip();
+    void flip(size_t);
+
+private:
+    static const size_t bit_count = sizeof(size_t) * 8;
+
+private:
+    size_t _cap;
+    size_t _size;
+    size_t* _buffer;
 };
 
 #endif // VECTOR_H
